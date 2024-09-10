@@ -1,0 +1,128 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3c3d37;
+  background-size: cover;
+  background-position: center;
+}
+
+.form-container {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  /* margin: 0 auto; */
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container h2 {
+  color: white;
+  border-bottom: 1px solid gray;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  font-size: 15px;
+  text-align: center;
+  font-style: italic;
+}
+.form-container h1 {
+  color: #ccd5ae;
+  font-size: 25px;
+  /* text-align: center; */
+  font-weight: bold;
+  /* font-style: italic; */
+  padding-bottom: 5px;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 250px;
+}
+
+label {
+  margin-bottom: 5px;
+  color: white;
+}
+
+input,
+select {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  /* border: 1px solid white; */
+  border-radius: 5px;
+  width: 100%;
+}
+
+input[type="file"] {
+  padding: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: red;
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  width: 100px;
+  align-self: center;
+  margin-top: 20px;
+  font-weight: bolder;
+}
+button:hover{
+  background-color: #557C56;
+}
+
+
+
+
+span {
+  color: #c5705d;
+  font-size: 12px;
+  display: none;
+}
+
+
+input:invalid[focus="true"] ~ span {
+  display: block;
+  /* color: #C5705D; */
+}
+
+input:invalid[focus="true"] {
+  border: 1px solid #c5705d;
+}
+
+select:invalid[focus="true"] ~ span {
+  display: block;
+}
+
+.nav-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

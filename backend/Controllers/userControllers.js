@@ -1,5 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
 const User = require("../Models/userModel");
+const bcrypt = require("bcrypt");
 
 const registerData = expressAsyncHandler(async (req, res) => {
   console.log(`whole data seems like: `, req.body);
@@ -19,6 +20,8 @@ const registerData = expressAsyncHandler(async (req, res) => {
     primaryName,
     primaryPhone,
     primaryEmail,
+    password,
+    // Cpassword,
   } = req.body;
 
   //we need to check whether we receive all required fields data in backend
@@ -43,8 +46,19 @@ const registerData = expressAsyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Sorry,same user already exists" });
   }
 
+  //if it is new user we want to assign a studentId to them
+  const branch = req.body.class;
+  const Year = new Date().getFullYear();
+
+  const count = await User.countDocuments({
+    studentId: { $regex: `^St${Year}${branch}` },
+  });
+
+  const studentId = `St${Year}${branch}${count + 1}`;
+
   //if it is not we need to create a new user
   const newUser = new User({
+    studentId,
     studentPersonalInfo: {
       firstName,
       middleName: req.body.middleName || "",
@@ -80,6 +94,9 @@ const registerData = expressAsyncHandler(async (req, res) => {
     class: req.body.class || "not specified",
     institution: req.body.institution || "not specified",
     photo: req.body.photo || "",
+    accountInfo: {
+      ...(password && { password }),
+    },
   });
 
   //then we need to save to User collection
@@ -88,6 +105,7 @@ const registerData = expressAsyncHandler(async (req, res) => {
   //so we are going to send all important data as a response to frontend
   res.status(201).json({
     _id: createdUser._id,
+    studentId: createdUser.studentId,
     studentPersonalInfo: {
       firstName: createdUser.studentPersonalInfo.firstName,
       middleName: createdUser.studentPersonalInfo.middleName || "", // Handle optional field
@@ -123,11 +141,14 @@ const registerData = expressAsyncHandler(async (req, res) => {
     class: createdUser.class || "", // Handle optional field
     institution: createdUser.institution || "", // Handle optional field
     photo: createdUser.photo || "", // Handle optional field
+    accountInfo: {
+      password: createdUser.accountInfo.password,
+    },
   });
 });
 
 const updateData = expressAsyncHandler(async (req, res) => {
-  const userIdentifier = req.query.id;
+  const userIdentifier = req.body._id;
   const updatedRes = req.body;
   console.log("reqbody from edited changes seems like", req.body);
   const updatedFields = {
@@ -166,6 +187,9 @@ const updateData = expressAsyncHandler(async (req, res) => {
     class: updatedRes.class,
     institution: updatedRes.institution,
     photo: updatedRes.photo,
+    accountInfo: {
+      password: updatedRes.password,
+    },
   };
 
   try {
@@ -204,5 +228,78 @@ const deleteData = expressAsyncHandler(async (req, res) => {
     res.status(500).json({ message: "Error deleting user" });
   }
 });
+const Uservalidation = expressAsyncHandler(async (req, res) => {
+  const Idfromstudent = req.query.id;
+  console.log("studentID seems like", Idfromstudent);
+  const user = await User.findOne({ studentId: Idfromstudent });
+  if (!user) {
+    res
+      .status(401)
+      .json({ message: "Sorry,Invalid Student id", userExists: false });
+  } else if (!user.accountInfo.password) {
+    res.status(200).json({
+      message: "User exists,Create and confirm password",
+      userExists: true,
+      hasPassword: false,
+    });
+  } else {
+    res.status(200).json({
+      message: "User exists,Enter your password",
+      userExists: true,
+      hasPassword: true,
+    });
+  }
+});
+const loginValidation = expressAsyncHandler(async (req, res) => {
+  const idOfStudent = req.query.id;
+  const stdPassword = req.body.Password;
+  console.log("student password seems like", stdPassword);
+  const student = await User.findOne({ studentId: idOfStudent });
+  if (
+    student &&
+    (await bcrypt.compare(stdPassword, student.accountInfo.password))
+  ) {
+    res.status(200).json({
+      success: true,
+      message: "Congrats,Loged in successfully",
+      studentDet: student,
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: "Sorry,Invalid credentials login failed",
+    });
+  }
+});
+const PasswordStore = expressAsyncHandler(async (req, res) => {
+  const studID = req.query.id;
+  const { Password, Cpassword } = req.body;
+  //we need to find that partciular student to update the Password
+  try {
+    const particularStd = await User.findOne({ studentId: studID });
+    //if there is student we need to first assign the paswword to its field inside  database collection
+    if (particularStd) {
+      particularStd.accountInfo.password = Password;
+      //then we need to save this document ,then only before saving password field in thedocument ,password can be hashed by using mongoosescheam pre middleware
+      await particularStd.save();
+      res.status(200).json({
+        success: true,
+        message: "Congrats, Password created and logged in succesfully",
+        studentDet: particularStd,
+      });
+    } else {
+      res.status(400).json({ success: false, message: "Student not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 
-module.exports = { registerData, updateData, deleteData };
+module.exports = {
+  registerData,
+  updateData,
+  deleteData,
+  Uservalidation,
+  loginValidation,
+  PasswordStore,
+};

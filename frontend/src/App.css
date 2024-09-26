@@ -94,19 +94,15 @@ button {
   margin-top: 20px;
   font-weight: bolder;
 }
-button:hover{
-  background-color: #557C56;
+button:hover {
+  background-color: #557c56;
 }
-
-
-
 
 span {
   color: #c5705d;
   font-size: 12px;
   display: none;
 }
-
 
 input:invalid[focus="true"] ~ span {
   display: block;
@@ -125,4 +121,45 @@ select:invalid[focus="true"] ~ span {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.main-div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.form-container-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px; /* Adjust width as needed */
+  /* width: 100%; */
+  width: 400px;
+  padding: 20px; /* Add padding if needed */
+  /* border: solid 1px gray; */
+  background-color: #1e201e;
+  border-radius: 8px; /* Optional rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+.lgn-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.hdr{
+  margin-bottom: 5px;
+  color: white;
+  /* font-style: italic; */
+  font-weight: bold;
 }

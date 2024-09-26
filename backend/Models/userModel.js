@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+
 const userSchema = new mongoose.Schema(
   {
+    studentId: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+
     studentPersonalInfo: {
       firstName: { type: String, required: true },
       middleName: { type: String },
@@ -59,11 +67,31 @@ const userSchema = new mongoose.Schema(
     class: { type: String },
     institution: { type: String },
     photo: { type: String },
+
+    accountInfo: {
+      password: {
+        type: String,
+      },
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("accountInfo.password") || !this.accountInfo.password) {
+    return next();
+  }
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.accountInfo.password = await bcrypt.hash(
+      this.accountInfo.password,
+      salt
+    );
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

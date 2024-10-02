@@ -3,18 +3,34 @@ body {
   padding: 0;
 }
 
+/* General */
+.m-b-40 {
+  margin-bottom: 40px;
+}
+.m-b-20{
+  margin-bottom: 20px;;
+}
+.b-0{
+  border-width: 0!important;
+}
+/* .d-always {
+  display: block !important;
+} */
+
 .App {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #3c3d37;
+  background-color: #fff;
   background-size: cover;
   background-position: center;
 }
 
+
+
 .form-container {
-  background-color: black;
+  background-color: #fff;
   color: white;
   padding: 20px;
   border-radius: 10px;
@@ -54,18 +70,18 @@ form {
   flex-wrap: wrap;
 }
 
-.form-group {
+/* .form-group {
   display: flex;
   flex-direction: column;
   margin-right: 15px;
   margin-bottom: 10px;
   width: 100%;
   max-width: 250px;
-}
+} */
 
 label {
   margin-bottom: 5px;
-  color: white;
+  color: grey;
 }
 
 input,
@@ -98,23 +114,64 @@ button:hover {
   background-color: #557c56;
 }
 
-span {
+.info-title {
+  font-weight: 500;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+/* ------- section ------ */
+
+.student-data-wrap section {
+  margin: 20px 0;
+}
+
+/* -------- form -------- */
+
+.App .form-control {
+  border-radius: 0;
+  height: 42px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+.form-group > span {
   color: #c5705d;
   font-size: 12px;
   display: none;
+  position: absolute;
+  /* bottom: -18px; */
 }
 
-input:invalid[focus="true"] ~ span {
+input:invalid ~ span,
+select:invalid ~ span {
+  display: none;
+}
+
+input:invalid.submitted ~ span,
+select:invalid.submitted ~ span {
   display: block;
-  /* color: #C5705D; */
 }
 
-input:invalid[focus="true"] {
-  border: 1px solid #c5705d;
+input:invalid.submitted,
+select:invalid.submitted{
+  border: 1px solid lightcoral;
 }
 
+input:invalid[focus="true"] ~ span,
 select:invalid[focus="true"] ~ span {
   display: block;
+}
+
+input:invalid[focus="true"],
+select:invalid[focus="true"]{
+  border: solid 1px lightcoral;
+}
+.text-danger {
+  color: red;
+  font-size: 0.875rem;
+  /* display: block; Smaller font size for error message */
 }
 
 .nav-main {
@@ -128,6 +185,10 @@ select:invalid[focus="true"] ~ span {
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+.header-div{
+
+  margin-bottom: 15px;
 }
 .form-container-login {
   display: flex;
@@ -147,6 +208,7 @@ select:invalid[focus="true"] ~ span {
   padding: 20px; /* Add padding if needed */
   /* border: solid 1px gray; */
   background-color: #1e201e;
+  /* background-color: #fff; */
   border-radius: 8px; /* Optional rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
 }
@@ -157,9 +219,26 @@ select:invalid[focus="true"] ~ span {
   justify-content: center;
   align-items: center;
 }
-.hdr{
+.hdr {
   margin-bottom: 5px;
   color: white;
   /* font-style: italic; */
   font-weight: bold;
+}
+
+
+
+section.section-wrap{
+  margin: 20px 0;
+  padding: 20px 0;
+}
+
+
+.title-card{
+  margin: 30px 0 25px;
+}
+@media screen and (max-width:576px){
+  .title-card{
+    margin: 30px 0 25px;
+  }
 }

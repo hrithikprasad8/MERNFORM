@@ -84,16 +84,18 @@ const registerData = expressAsyncHandler(async (req, res) => {
         email: primaryEmail,
       },
       secondary: {
-        relation: req.body.secondaryContact || "not specified",
-        name: req.body.secondaryName || "not specified",
-        phone: req.body.secondaryPhone || "not specified",
-        email: req.body.secondaryEmail || "not specified",
+        relation: req.body.secondaryContact || "",
+        name: req.body.secondaryName || "",
+        phone: req.body.secondaryPhone || "",
+        email: req.body.secondaryEmail || "",
       },
     },
     vocation: req.body.vocation || "not specified",
     class: req.body.class || "not specified",
+    enterclassorprofession: req.body.enterclassorprofession || "not specified",
     institution: req.body.institution || "not specified",
     photo: req.body.photo || "",
+    EnterInstitution: req.body.EnterInstitution || "not specified",
     accountInfo: {
       ...(password && { password }),
     },
@@ -139,8 +141,10 @@ const registerData = expressAsyncHandler(async (req, res) => {
     },
     vocation: createdUser.vocation,
     class: createdUser.class || "", // Handle optional field
+    enterclassorprofession: createdUser.enterclassorprofession,
     institution: createdUser.institution || "", // Handle optional field
     photo: createdUser.photo || "", // Handle optional field
+    EnterInstitution: createdUser.EnterInstitution,
     accountInfo: {
       password: createdUser.accountInfo.password,
     },
@@ -185,8 +189,10 @@ const updateData = expressAsyncHandler(async (req, res) => {
     },
     vocation: updatedRes.vocation,
     class: updatedRes.class,
+    enterclassorprofession: updatedRes.enterclassorprofession,
     institution: updatedRes.institution,
     photo: updatedRes.photo,
+    EnterInstitution: updatedRes.EnterInstitution,
     accountInfo: {
       password: updatedRes.password,
     },

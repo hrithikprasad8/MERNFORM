@@ -19,7 +19,9 @@ const DashBoard = ({ user }) => {
   }, [onOpen]);
   return (
     <div>
-      <h3 style={{ color: "#ECDFCC", fontSize: "20px", fontWeight: "bold" }}>
+      <MainFormUI user={user} />
+
+      {/* <h3 style={{ color: "#ECDFCC", fontSize: "20px", fontWeight: "bold" }}>
         Dashboard
       </h3>
       <Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
@@ -29,9 +31,7 @@ const DashBoard = ({ user }) => {
             Manage Customer Data
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <MainFormUI user={user} />
-          </ModalBody>
+          <ModalBody></ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
@@ -39,7 +39,7 @@ const DashBoard = ({ user }) => {
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

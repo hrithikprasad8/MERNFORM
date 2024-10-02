@@ -55,18 +55,20 @@ const userSchema = new mongoose.Schema(
         phone: {
           type: String,
           maxlength: 13,
-          match: [
-            /^\+91[0-9]{10}$/,
-            "Please enter a valid mobile number (e.g. +91xxxxxxxxxx)",
-          ],
+          // match: [
+          //   /^\+91[0-9]{10}$/,
+          //   "Please enter a valid mobile number (e.g. +91xxxxxxxxxx)",
+          // ],
         },
         email: { type: String },
       },
     },
     vocation: { type: String, required: true },
     class: { type: String },
+    enterclassorprofession: { type: String },
     institution: { type: String },
     photo: { type: String },
+    EnterInstitution: { type: String },
 
     accountInfo: {
       password: {
